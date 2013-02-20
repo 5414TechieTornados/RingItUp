@@ -29,7 +29,7 @@
 #include "hitechnic-irseeker-v2.h" //ir drivers
 
 const float ArmUpRotations = .58;
-const float RightArmUpRotations = .04;
+const float RightArmUpRotations = .05;
 const float LeftArmUpRotations = .02;
 
 const float middleStartInches = 9.75;
