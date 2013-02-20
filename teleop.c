@@ -125,7 +125,7 @@ void deployRamp(){
 
 //Method raises and lowers the finger with button push depending upon the current servo values
 void moveFinger(){
-	if(joy1Btn(3)){
+	if(joy1Btn(2)){
   	servoTarget[finger] = ServoValue(finger) + 2;
 	}
 	else if(joy1Btn(4)){
@@ -137,10 +137,10 @@ void moveFinger(){
 void moveClaw(){
   //Checks to make sure the buttons are pressed, and that they aren't being raised or lowered over their max ranges
   //CHECK ACTUAL BUTTON NUMBERS
-  if(joy1Btn(1) && ServoValue(claw) < MAX_UP_CLAW_VALUE){
+  if(joy1Btn(1)){
     servoTarget[claw] = ServoValue(claw) + 1;
   }
-  else if(joy1Btn(2) && ServoValue(claw) > MAX_DOWN_CLAW_VALUE){
+  else if(joy1Btn(3)){
     servoTarget[claw] = ServoValue(claw) - 1;
   }
   moveFinger();
