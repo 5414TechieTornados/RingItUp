@@ -22,7 +22,7 @@ const int MAX_RAMP_MOTOR = 80;
 const float MAX_JOYSTICK = 128.0;
 //The amount of power to apply to the arm motor
 const int ARM_MOTOR_POWER = 30;
-const int ARM_MOTOR_POWER_DOWN = 5;
+const int ARM_MOTOR_POWER_DOWN = 15;
 //The max value to apply to rasing the claw servo
 const int MAX_UP_CLAW_VALUE = 256;
 //The max value to apply to lowering the claw servo
@@ -146,6 +146,21 @@ void moveClaw(){
   moveFinger();
 }
 
+
+void autoUp(){
+	servoTarget[claw] = 250;
+	motor[arm] = 45 * -1;
+	wait1Msec(700);
+	motor[arm] = 0;
+}
+
+void autoDown(){
+	servoTarget[claw] = 115;
+	motor[arm] = ARM_MOTOR_POWER_DOWN;
+	wait1Msec(550);
+	motor[arm] = 0;
+}
+
 void moveArm(){
   // if button is pressed apply positive power
   if(joy1Btn(5))
@@ -157,13 +172,19 @@ void moveArm(){
   {
     motor[arm] = ARM_MOTOR_POWER * -1;
   }
-  //if no button relating to the arm is pressed apply no power
+  else if(joy2Btn(4)){
+  	autoUp();
+	}
+	else if(joy2Btn(2)){
+		autoDown();
+	}
   else
   {
     motor[arm] = 0;
   }
   moveClaw();
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
