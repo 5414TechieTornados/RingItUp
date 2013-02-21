@@ -1,5 +1,5 @@
 git add .
-git commit -m "Fixed bug with arm"
+git commit -m "commit message"
 git push origin
 
 5414TechieTornados
@@ -7,3 +7,29 @@ robotics13
 
 git fetch origin
 git rebase origin/dev
+
+//a graphical user interface which allows you to do some basic stuff
+git gui
+
+/*Add --hard after reset to undo files from your index AND working directory*/
+//used to undo a specific file if it has been added to staging but not from your working directory
+git reset <file>
+
+//used to reset all files added to staging but not from your working directory
+git reset .
+
+//used to reset file in your working directory
+git checkout <file>
+
+//used to remove last commit made but leaves the changes in your index
+git reset --soft HEAD~1
+
+//used to remove last commit made and remove changes from index (still in your working copy)
+git reset HEAD~1
+
+//used to removed last commit made and remove changes from index and your working copy
+git reset --hard HEAD~1
+
+//lists all commits
+git log
+ 
