@@ -156,8 +156,15 @@ void autoUp(){
 
 void autoDown(){
 	servoTarget[claw] = 115;
-	motor[arm] = ARM_MOTOR_POWER_DOWN;
-	wait1Msec(550);
+	//motor[arm] = ARM_MOTOR_POWER_DOWN;
+	//wait1Msec(550);
+	//motor[arm] = 0;
+	
+	nMotorEncoder[arm] = 0;
+	while(nMotorEncoder[arm] > -804)//while encoderB is less than 720
+	{
+		motor[arm] = ARM_MOTOR_POWER_DOWN;
+    }
 	motor[arm] = 0;
 }
 
