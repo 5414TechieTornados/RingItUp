@@ -126,10 +126,10 @@ void deployRamp(){
 //Method raises and lowers the finger with button push depending upon the current servo values
 void moveFinger(){
 	if(joy1Btn(2)){
-  	servoTarget[finger] = ServoValue(finger) + 2;
+  	servoTarget[finger] = 220;
 	}
 	else if(joy1Btn(4)){
-		servoTarget[finger] = ServoValue(finger) - 2;
+		servoTarget[finger] = 0;
 	}
 }
 
@@ -138,33 +138,28 @@ void moveClaw(){
   //Checks to make sure the buttons are pressed, and that they aren't being raised or lowered over their max ranges
   //CHECK ACTUAL BUTTON NUMBERS
   if(joy1Btn(1)){
-    servoTarget[claw] = ServoValue(claw) + 1;
+    servoTarget[claw] = ServoValue(claw) + 3;
   }
   else if(joy1Btn(3)){
-    servoTarget[claw] = ServoValue(claw) - 1;
+    servoTarget[claw] = ServoValue(claw) - 3;
   }
   moveFinger();
 }
 
 
 void autoUp(){
+	motor[ramp] = MAX_MOTOR;
 	servoTarget[claw] = 250;
 	motor[arm] = 45 * -1;
 	wait1Msec(700);
 	motor[arm] = 0;
+	motor[ramp] = 0;
 }
 
 void autoDown(){
 	servoTarget[claw] = 115;
-	//motor[arm] = ARM_MOTOR_POWER_DOWN;
-	//wait1Msec(550);
-	//motor[arm] = 0;
-	
-	nMotorEncoder[arm] = 0;
-	while(nMotorEncoder[arm] > -804)//while encoderB is less than 720
-	{
-		motor[arm] = ARM_MOTOR_POWER_DOWN;
-    }
+	motor[arm] = ARM_MOTOR_POWER_DOWN;
+	wait1Msec(550);
 	motor[arm] = 0;
 }
 

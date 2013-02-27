@@ -28,18 +28,19 @@
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "hitechnic-irseeker-v2.h" //ir drivers
 
-const float ArmUpRotations = .58;
-const float RightArmUpRotations = .04;
-const float LeftArmUpRotations = .02;
+const float ArmUpRotations = .68;
+const float RightArmUpRotations = .08;
+const float LeftArmUpRotations = .04;
 
 const float middleStartInches = 9.75;
-const float middleTurnRotations = 2;
-const float middleFinalInches = 35.5;
+const float middleTurnRotations = 1.95;
+const float middleFinalInches = 36.5;
 
 const float rightStartInches = 37.75;
 const float rightFinalInches = 17.5;
+const float rightTurnRotations = 1.5;
 
-const float leftTurnRotations = 2.82;
+const float leftTurnRotations = 2.72;
 const float leftFinalInches = 43;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +94,7 @@ void raiseArm(float rotations){
 	wait1Msec(5);
 
 	nMotorEncoderTarget[arm] = convertRotations(rotations);
-		motor[arm] = -25;
+		motor[arm] = -30;
 
 	while(nMotorRunState[arm] != runStateIdle){
 	}
@@ -101,7 +102,7 @@ void raiseArm(float rotations){
 }
 
 void intializeClaw(){
-	servoTarget[claw] = 100;
+	servoTarget[claw] = 80;
 }
 
 /*
@@ -119,8 +120,8 @@ void firstMove(float inches){
 	nMotorEncoderTarget[motorC] = convertInches(inches);
 	nMotorEncoderTarget[motorD] = convertInches(inches);
 
-	motor[motorC] = 70;
-	motor[motorD] = 70;
+	motor[motorC] = 55;
+	motor[motorD] = 55;
 
 	while(nMotorRunState[motorC] != runStateIdle || nMotorRunState[motorD] != runStateIdle){
 	}
@@ -227,11 +228,11 @@ task main()
 
   int _dirAC = 0;
 
-  wait1Msec(200);
+  wait1Msec(800);
 
   int sensorDirection = HTIRS2readDCDir(irSeeker);
 
-  if(sensorDirection < 5){
+  if(sensorDirection < 7 && sensorDirection > 0){
   	raiseArm(LeftArmUpRotations);
   	leftTurn(leftTurnRotations);
   	attackRack(leftFinalInches);
@@ -239,16 +240,16 @@ task main()
 	else{
 		firstMove(middleStartInches);
 
-		wait1Msec(300);
+		wait1Msec(800);
 		sensorDirection = HTIRS2readDCDir(irSeeker);
-		if(sensorDirection < 7){
+		if(sensorDirection < 7 && sensorDirection > 0){
 			leftTurn(middleTurnRotations);
 			attackRack(middleFinalInches);
 		}
 		else{
 			raiseArm(RightArmUpRotations);
 			firstMove(rightStartInches - middleStartInches);
-			leftTurn(middleTurnRotations);
+			leftTurn(rightTurnRotations);
 			attackRack(rightFinalInches);
 		}
 	}

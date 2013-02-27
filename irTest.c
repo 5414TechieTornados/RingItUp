@@ -1,8 +1,9 @@
 #pragma config(Hubs,  S1, HTMotor,  HTServo,  HTMotor,  none)
+#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     ,               sensorI2CCustom)
 #pragma config(Sensor, S4,     irSeeker,       sensorI2CCustom)
-#pragma config(Motor,  mtr_S1_C1_1,     motorC,        tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor,  mtr_S1_C1_2,     motorD,        tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C1_1,     motorD,        tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C1_2,     motorC,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C3_1,     motorF,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C3_2,     arm,           tmotorTetrix, PIDControl, encoder)
 #pragma config(Servo,  srvo_S1_C2_1,    finger,               tServoStandard)
@@ -92,7 +93,7 @@ void raiseArm(float rotations){
 	wait1Msec(5);
 
 	nMotorEncoderTarget[arm] = convertRotations(rotations);
-		motor[arm] = -25;
+		motor[arm] = -35;
 
 	while(nMotorRunState[arm] != runStateIdle){
 	}
@@ -229,7 +230,10 @@ task main()
 
   wait1Msec(200);
 
-  int sensorDirection = HTIRS2readDCDir(irSeeker);
+ firstMove(middleStartInches);
+
+		wait1Msec(300);
+		int sensorDirection = HTIRS2readDCDir(irSeeker);
   while(true){
   	nxtDisplayBigStringAt(0, 31, "%d", sensorDirection);
   	sensorDirection = HTIRS2readDCDir(irSeeker);
